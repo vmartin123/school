@@ -3,6 +3,7 @@ package com.company.school.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -95,16 +96,9 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> getStudentsWithoutCourses() {
-		List<Student> students = studentRepository.findAll();
-		List<Student> studentsResult = new ArrayList<Student>();
-
-		for (Student student : students) {
-			if (student.getCourses().size() == 0) {
-				studentsResult.add(student);
-			}
-		}
-
-		return studentsResult;
+		return studentRepository.findAll().stream()
+				.filter(n -> n.getCourses().size() == 0)
+				.collect(Collectors.toList());
 	}
 
 	@Override
