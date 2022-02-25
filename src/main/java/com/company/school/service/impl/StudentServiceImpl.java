@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,8 +20,11 @@ import com.company.school.service.StudentService;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-	private final int MAXIMUM_COURSES_PER_STUDENT = 5;
-	private final int MAXIMUM_STUDENTS_PER_COURSE = 50;
+	@Value("${maximum.courses.per.student}")
+	private int maximumCoursesPerStudent;
+
+	@Value("${maximum.students.per.course}")
+	private int maximumStudentsPerCourse;
 
 	@Autowired
 	StudentRepository studentRepository;
@@ -51,14 +55,14 @@ public class StudentServiceImpl implements StudentService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Course " + course.getId() + " not found");
 		}
 
-		if (studentDb.get().getCourses().size() >= MAXIMUM_COURSES_PER_STUDENT) {
+		if (studentDb.get().getCourses().size() >= maximumCoursesPerStudent) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"Limit of " + MAXIMUM_COURSES_PER_STUDENT + " courses per student reached");
+					"Limit of " + maximumCoursesPerStudent + " courses per student reached");
 		}
 
-		if (courseDb.get().getStudents().size() >= MAXIMUM_STUDENTS_PER_COURSE) {
+		if (courseDb.get().getStudents().size() >= maximumStudentsPerCourse) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-					"Limit of " + MAXIMUM_STUDENTS_PER_COURSE + " students max per course reached");
+					"Limit of " + maximumStudentsPerCourse + " students max per course reached");
 		}
 
 		studentDb.get().getCourses().add(courseDb.get());
@@ -96,8 +100,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public List<Student> getStudentsWithoutCourses() {
-		return studentRepository.findAll().stream()
-				.filter(n -> n.getCourses().size() == 0)
+		return studentRepository.findAll().stream().filter(n -> n.getCourses().size() == 0)
 				.collect(Collectors.toList());
 	}
 
