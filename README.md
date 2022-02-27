@@ -1,19 +1,16 @@
-* MySql setup:
+- To deploy all containers in docker-compose, run these commands in terminal (route may vary):
 
-run this command in terminal to deploy container
-
-docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_ROOT_HOST=% -d mysql/mysql-server:8.0.28
-
-* Database backup in route (location may vary):
-
-C:\Users\user\Documents\eclipse-workspace\school\environment\bu.sql
-
-just run the SQL file in any client, E.g: worbench
-
-* for docker compose, run this command in terminal (location may vary):
-cd C:\Users\user\Documents\eclipse-workspace\school\environment
+cd C:\Users\user\Documents\eclipse-workspace\school
+<br />
 docker-compose up -d
 
+<br />
+
+- MySql backUp, just run the SQL file in any client, E.g: Workbench (route may vary):
+
+C:\Users\user\Documents\eclipse-workspace\school\environment\backUp.sql
+
+<br />
 
 - Create API for students to register to courses
 
@@ -30,6 +27,7 @@ response: 201 Created
     "id": 3
 }
 
+<br />
 
 - Create abilities for user to view all relationships between students and courses
 
@@ -75,6 +73,7 @@ response: 200 OK
     }
 ]
 
+<br />
 
 + Filter all students with a specific course
 
@@ -100,6 +99,7 @@ response: 200 OK
     }
 ]
 
+<br />
 
 + Filter all courses for a specific student
 
@@ -113,6 +113,7 @@ response: 200 OK
     }
 ]
 
+<br />
 
 + Filter all courses without any students
 
@@ -126,6 +127,7 @@ response: 200 OK
     }
 ]
 
+<br />
 
 + Filter all students without any courses
 
