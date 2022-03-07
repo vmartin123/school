@@ -1,9 +1,8 @@
 package com.company.school.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.company.school.model.Course;
@@ -26,51 +24,45 @@ public class StudentController {
 	StudentServiceImpl studentService;
 
 	@PostMapping(value = "", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Student createStudent(@RequestBody Student student) {
-		return studentService.createStudent(student);
+	public ResponseEntity<Object> createStudent(@RequestBody Student student) {
+		return new ResponseEntity<>(studentService.createStudent(student), HttpStatus.CREATED);
 	}
 
 	@PostMapping(value = "/{studentId}/courses", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Course assignCourse(@PathVariable("studentId") Long studentId, @RequestBody Course course) {
-		return studentService.assignCourse(studentId, course);
+	public ResponseEntity<Object> assignCourse(@PathVariable("studentId") Long studentId, @RequestBody Course course) {
+		return new ResponseEntity<>(studentService.assignCourse(studentId, course), HttpStatus.CREATED);
 	}
 
 	@GetMapping(value = "", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Student> getStudents() {
-		return studentService.getStudents();
+	public ResponseEntity<Object> getStudents() {
+		return new ResponseEntity<>(studentService.getStudents(), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{studentId}", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.OK)
-	public Student getStudentById(@PathVariable("studentId") Long studentId) {
-		return studentService.getStudentById(studentId);
+	public ResponseEntity<Object> getStudentById(@PathVariable("studentId") Long studentId) {
+		return new ResponseEntity<>(studentService.getStudentById(studentId), HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/{studentId}/courses", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Course> getCoursesByStudentId(@PathVariable("studentId") Long studentId) {
-		return studentService.getCoursesByStudentId(studentId);
+	public ResponseEntity<Object> getCoursesByStudentId(@PathVariable("studentId") Long studentId) {
+		return new ResponseEntity<>(studentService.getCoursesByStudentId(studentId), HttpStatus.OK);
 	}
-	
+
 	@GetMapping(value = "/without-courses", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Student> getStudentsWithoutCourses() {
-		return studentService.getStudentsWithoutCourses();
+	public ResponseEntity<Object> getStudentsWithoutCourses() {
+		return new ResponseEntity<>(studentService.getStudentsWithoutCourses(), HttpStatus.OK);
 	}
 
 	@PutMapping(value = "/{studentId}", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.OK)
-	public Student updateStudent(@PathVariable("studentId") Long studentId, @RequestBody Student student) {
-		return studentService.updateStudent(studentId, student);
+	public ResponseEntity<Object> updateStudent(@PathVariable("studentId") Long studentId,
+			@RequestBody Student student) {
+		return new ResponseEntity<>(studentService.updateStudent(studentId, student), HttpStatus.OK);
 	}
 
 	@DeleteMapping(value = "/{studentId}", headers = "Accept=application/com.company.app-v1+json")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteStudent(@PathVariable("studentId") Long studentId) {
+	public ResponseEntity<Object> deleteStudent(@PathVariable("studentId") Long studentId) {
 		studentService.deleteStudent(studentId);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
 }
